@@ -23,3 +23,21 @@ groups:
     annotations:
       description: The heap usage is over 90% for 15m
       summary: ElasticSearch node {{$labels.node}} heap usage is high
+  - alert: elasticsearchYellowState
+    annotations:
+      description: Elasticsearch is in warning state
+      summary: Elasticsearch is in warning state
+    expr: | 
+      elasticsearch_cluster_health_status{cluster="elasticsearch",color="yellow"} == 1
+    for: 5m
+    labels:
+      severity: warning
+  - alert: elasticsearchRedState
+    annotations:
+      description: Elasticsearch is down
+      summary: Elasticsearch is down
+    expr: | 
+      elasticsearch_cluster_health_status{cluster="elasticsearch",color="red"} == 1
+    for: 5m
+    labels:
+      severity: critical
